@@ -1,0 +1,207 @@
+{
+	"name": "102_GR05_DF_Machinelearning",
+	"properties": {
+		"folder": {
+			"name": "102_GR05"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Country",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDCOUNTRY"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Distributor",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDDISTI"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Partner",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDPARTNER"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Quote",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDQUOTE"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Fact",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDFACT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Machinelearning",
+						"type": "DatasetReference"
+					},
+					"name": "Sinkmachinelearning"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FactandQuote"
+				},
+				{
+					"name": "Partnerandcountry"
+				},
+				{
+					"name": "Distiandcountry"
+				},
+				{
+					"name": "Factandpartner"
+				},
+				{
+					"name": "factanddisti"
+				},
+				{
+					"name": "Selectfactcolumndenorm"
+				},
+				{
+					"name": "Replacenames"
+				},
+				{
+					"name": "AddLabel"
+				},
+				{
+					"name": "Removecancelled"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Country ID} as string,",
+				"          {Country Name} as string,",
+				"          Region as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDCOUNTRY",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDDISTI",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDPARTNER",
+				"source(output(",
+				"          {Quote ID} as string,",
+				"          {Renewal Assignee} as string,",
+				"          {Opportunity Status} as string,",
+				"          {Approval Status} as string,",
+				"          {Quote Status} as string,",
+				"          {Days To PO Received} as string,",
+				"          {Sales Owner} as string,",
+				"          {Renewal Opportunity: Quote Status} as string,",
+				"          {Issue Comments} as string,",
+				"          {Renewal Opportunity: Forecast Category} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDQUOTE",
+				"source(output(",
+				"          {RPM ID} as string,",
+				"          {Quote ID} as string,",
+				"          {Disti ID} as string,",
+				"          {Partner ID} as string,",
+				"          {Customer name} as string,",
+				"          {Order Due Date} as string,",
+				"          {Order Received Date} as string,",
+				"          {Quote Value} as string,",
+				"          {Fact PK} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDFACT",
+				"PROCESSEDFACT, PROCESSEDQUOTE join(PROCESSEDFACT@{Quote ID} == PROCESSEDQUOTE@{Quote ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> FactandQuote",
+				"PROCESSEDPARTNER, PROCESSEDCOUNTRY join(PROCESSEDPARTNER@{Country ID} == PROCESSEDCOUNTRY@{Country ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> Partnerandcountry",
+				"PROCESSEDDISTI, PROCESSEDCOUNTRY join(PROCESSEDDISTI@{Country ID} == PROCESSEDCOUNTRY@{Country ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> Distiandcountry",
+				"FactandQuote, Partnerandcountry join({Partner ID} == {Reseller name},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> Factandpartner",
+				"Replacenames, Distiandcountry join({Disti ID} == {Reseller name},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> factanddisti",
+				"AddLabel select(mapColumn(",
+				"          {Customer name},",
+				"          {Order Due Date},",
+				"          {Quote Value},",
+				"          {Fact PK},",
+				"          {Renewal Assignee},",
+				"          {Sales Owner},",
+				"          {Reseller name Partner},",
+				"          {Country Name Partner} = Replacenames@{Country Name},",
+				"          {Region Partner} = Replacenames@Region,",
+				"          {Reseller name Disti} = {Reseller name},",
+				"          {Country Name Disti} = PROCESSEDCOUNTRY@{Country Name}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Selectfactcolumndenorm",
+				"Factandpartner select(mapColumn(",
+				"          {RPM ID},",
+				"          {Quote ID} = PROCESSEDFACT@{Quote ID},",
+				"          {Disti ID},",
+				"          {Partner ID},",
+				"          {Customer name},",
+				"          {Order Due Date},",
+				"          {Order Received Date},",
+				"          {Quote Value},",
+				"          {Fact PK},",
+				"          {Quote ID} = PROCESSEDQUOTE@{Quote ID},",
+				"          {Renewal Assignee},",
+				"          {Opportunity Status},",
+				"          {Approval Status},",
+				"          {Quote Status},",
+				"          {Days To PO Received},",
+				"          {Sales Owner},",
+				"          {Renewal Opportunity: Quote Status},",
+				"          {Issue Comments},",
+				"          {Renewal Opportunity: Forecast Category},",
+				"          {Reseller name Partner} = {Reseller name},",
+				"          {Country ID Partner} = PROCESSEDPARTNER@{Country ID},",
+				"          {Country Name},",
+				"          Region",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Replacenames",
+				"Removecancelled derive({Label-Received} = iif({Quote Status}==\"CLOSED - PO Received\", \"Received\", \"Not received\")) ~> AddLabel",
+				"factanddisti alterRow(deleteIf({Quote Status}==\"CANCELLED\")) ~> Removecancelled",
+				"Selectfactcolumndenorm sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Sinkmachinelearning"
+			]
+		}
+	}
+}

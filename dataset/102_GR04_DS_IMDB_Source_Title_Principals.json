@@ -1,0 +1,25 @@
+{
+	"name": "102_GR04_DS_IMDB_Source_Title_Principals",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "102_GR04_LS_HTTP_IMDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "title.principals.tsv.gz"
+			},
+			"columnDelimiter": "\t",
+			"compressionCodec": "gzip",
+			"compressionLevel": "Fastest",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

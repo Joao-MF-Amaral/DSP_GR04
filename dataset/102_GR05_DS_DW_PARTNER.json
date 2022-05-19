@@ -1,0 +1,20 @@
+{
+	"name": "102_GR05_DS_DW_PARTNER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "102_GR05_LS_DW",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "102_GR05_DATASETS/102_GR05_DW"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "102_GR05",
+			"table": "partner"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

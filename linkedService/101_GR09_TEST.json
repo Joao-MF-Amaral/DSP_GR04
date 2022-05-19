@@ -1,0 +1,11 @@
+{
+	"name": "101_GR09_TEST",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dsp7adls01.dfs.core.windows.net"
+		}
+	}
+}

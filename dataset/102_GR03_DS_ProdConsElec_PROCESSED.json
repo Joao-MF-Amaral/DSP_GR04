@@ -1,0 +1,29 @@
+{
+	"name": "102_GR03_DS_ProdConsElec_PROCESSED",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "102_GR03_LS_PROCESSED",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "102_GR03/PROCESSED",
+				"fileSystem": "dspdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Report generated on: 04-19-2022 19:43:28",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

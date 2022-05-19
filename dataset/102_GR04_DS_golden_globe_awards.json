@@ -1,0 +1,54 @@
+{
+	"name": "102_GR04_DS_golden_globe_awards",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "102_GR04_LS_ADLS_RAW",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "golden_globe_awards.csv",
+				"folderPath": "102_GR04/raw",
+				"fileSystem": "dspdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "year_film",
+				"type": "String"
+			},
+			{
+				"name": "year_award",
+				"type": "String"
+			},
+			{
+				"name": "ceremony",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "nominee",
+				"type": "String"
+			},
+			{
+				"name": "film",
+				"type": "String"
+			},
+			{
+				"name": "win",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

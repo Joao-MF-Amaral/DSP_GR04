@@ -1,0 +1,68 @@
+{
+	"name": "102_GR05_DS_Processed_Quote",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "102_GR05_LS_Originaldatasets",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "102_GR05_DATASETS/102_GR05_Processed"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "102_GR05/PROCESSED/Processed_Quote",
+				"fileSystem": "dspdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Quote ID",
+				"type": "String"
+			},
+			{
+				"name": "Renewal Assignee",
+				"type": "String"
+			},
+			{
+				"name": "Opportunity Status",
+				"type": "String"
+			},
+			{
+				"name": "Approval Status",
+				"type": "String"
+			},
+			{
+				"name": "Quote Status",
+				"type": "String"
+			},
+			{
+				"name": "Days To PO Received",
+				"type": "String"
+			},
+			{
+				"name": "Sales Owner",
+				"type": "String"
+			},
+			{
+				"name": "Renewal Opportunity: Quote Status",
+				"type": "String"
+			},
+			{
+				"name": "Issue Comments",
+				"type": "String"
+			},
+			{
+				"name": "Renewal Opportunity: Forecast Category",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

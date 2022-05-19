@@ -1,0 +1,12 @@
+{
+	"name": "101_GR09_LS_imdbtop250",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "LS to get data from source ",
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dsp7adls01.dfs.core.windows.net"
+		}
+	}
+}

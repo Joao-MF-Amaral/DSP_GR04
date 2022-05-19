@@ -1,0 +1,37 @@
+{
+	"name": "102_GR05_PL_Transformation_tables",
+	"properties": {
+		"activities": [
+			{
+				"name": "102_GR05_DS_transform",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "102_GR05_DF_Transformationtoprocessed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "102_GR05"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-18T15:22:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

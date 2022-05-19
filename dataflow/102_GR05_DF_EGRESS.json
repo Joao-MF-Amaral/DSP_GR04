@@ -1,0 +1,196 @@
+{
+	"name": "102_GR05_DF_EGRESS",
+	"properties": {
+		"folder": {
+			"name": "102_GR05"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Country",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDCOUNTRY"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Distributor",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDDISTI"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Partner",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDPARTNER"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Quote",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDQUOTE"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Processed_Fact",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDFACT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DW_COUNTRY",
+						"type": "DatasetReference"
+					},
+					"name": "DWCOUNTRY"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DW_DISTRIBUTOR",
+						"type": "DatasetReference"
+					},
+					"name": "DWDISTI"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DW_PARTNER",
+						"type": "DatasetReference"
+					},
+					"name": "DWPARTNER"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DW_QUOTE",
+						"type": "DatasetReference"
+					},
+					"name": "DWQUOTE"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DW_FACT",
+						"type": "DatasetReference"
+					},
+					"name": "DWFACT"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {Country ID} as string,",
+				"          {Country Name} as string,",
+				"          Region as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDCOUNTRY",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDDISTI",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDPARTNER",
+				"source(output(",
+				"          {Quote ID} as string,",
+				"          {Renewal Assignee} as string,",
+				"          {Opportunity Status} as string,",
+				"          {Approval Status} as string,",
+				"          {Quote Status} as string,",
+				"          {Days To PO Received} as string,",
+				"          {Sales Owner} as string,",
+				"          {Renewal Opportunity: Quote Status} as string,",
+				"          {Issue Comments} as string,",
+				"          {Renewal Opportunity: Forecast Category} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDQUOTE",
+				"source(output(",
+				"          {RPM ID} as string,",
+				"          {Quote ID} as string,",
+				"          {Disti ID} as string,",
+				"          {Partner ID} as string,",
+				"          {Customer name} as string,",
+				"          {Order Due Date} as string,",
+				"          {Order Received Date} as string,",
+				"          {Quote Value} as string,",
+				"          {Fact PK} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> PROCESSEDFACT",
+				"PROCESSEDCOUNTRY sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DWCOUNTRY",
+				"PROCESSEDDISTI sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DWDISTI",
+				"PROCESSEDPARTNER sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DWPARTNER",
+				"PROCESSEDQUOTE sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DWQUOTE",
+				"PROCESSEDFACT sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DWFACT"
+			]
+		}
+	}
+}

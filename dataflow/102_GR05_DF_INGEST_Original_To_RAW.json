@@ -1,0 +1,212 @@
+{
+	"name": "102_GR05_DF_INGEST_Original_To_RAW",
+	"properties": {
+		"folder": {
+			"name": "102_GR05"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_CountryDimensions",
+						"type": "DatasetReference"
+					},
+					"name": "OriginalCountry"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_DistributorDimension",
+						"type": "DatasetReference"
+					},
+					"name": "OriginalDisti"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_Fact_table",
+						"type": "DatasetReference"
+					},
+					"name": "OriginalFact"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_PartnerDimension",
+						"type": "DatasetReference"
+					},
+					"name": "OriginalPartner"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_DS_QuoteDimensions",
+						"type": "DatasetReference"
+					},
+					"name": "OriginalQuote"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "102_GR05_RAWCOUNTRYDIMENSION",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCountry"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_RAWDistributorDIMENSION",
+						"type": "DatasetReference"
+					},
+					"name": "RAWDisti"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_RAWFactable",
+						"type": "DatasetReference"
+					},
+					"name": "RawFact"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_RAWPartnerDIMENSION",
+						"type": "DatasetReference"
+					},
+					"name": "RawPartner"
+				},
+				{
+					"dataset": {
+						"referenceName": "102_GR05_RAWQuoteDim",
+						"type": "DatasetReference"
+					},
+					"name": "RawQuote"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {Country ID} as string,",
+				"          {Country Name} as string,",
+				"          Region as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OriginalCountry",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OriginalDisti",
+				"source(output(",
+				"          {RPM ID} as string,",
+				"          {Quote ID} as string,",
+				"          {Disti ID} as string,",
+				"          {Partner ID} as string,",
+				"          {Customer name} as string,",
+				"          {Order Due Date} as string,",
+				"          {Order Received Date} as string,",
+				"          {Quote Value} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OriginalFact",
+				"source(output(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OriginalPartner",
+				"source(output(",
+				"          {Quote ID} as string,",
+				"          {Renewal Assignee} as string,",
+				"          {Opportunity Status} as string,",
+				"          {Approval Status} as string,",
+				"          {Quote Status} as string,",
+				"          {Days To PO Received} as string,",
+				"          {Sales Owner} as string,",
+				"          {Renewal Opportunity: Quote Status} as string,",
+				"          {Issue Comments} as string,",
+				"          {Renewal Opportunity: Forecast Category} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OriginalQuote",
+				"OriginalCountry sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Country ID} as string,",
+				"          {Country Name} as string,",
+				"          Region as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RAWCountry",
+				"OriginalDisti sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RAWDisti",
+				"OriginalFact sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {RPM ID} as string,",
+				"          {Quote ID} as string,",
+				"          {Disti ID} as string,",
+				"          {Partner ID} as string,",
+				"          {Customer name} as string,",
+				"          {Order Due Date} as string,",
+				"          {Order Received Date} as string,",
+				"          {Quote Value} as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RawFact",
+				"OriginalPartner sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Reseller name} as string,",
+				"          {Country ID} as string,",
+				"          {Type of Reseller} as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RawPartner",
+				"OriginalQuote sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Quote ID} as string,",
+				"          {Renewal Assignee} as string,",
+				"          {Opportunity Status} as string,",
+				"          {Approval Status} as string,",
+				"          {Quote Status} as string,",
+				"          {Days To PO Received} as string,",
+				"          {Sales Owner} as string,",
+				"          {Renewal Opportunity: Quote Status} as string,",
+				"          {Issue Comments} as string,",
+				"          {Renewal Opportunity: Forecast Category} as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RawQuote"
+			]
+		}
+	}
+}

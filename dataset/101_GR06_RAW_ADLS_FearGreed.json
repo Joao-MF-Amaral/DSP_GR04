@@ -1,0 +1,38 @@
+{
+	"name": "101_GR06_RAW_ADLS_FearGreed",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "101_GR06_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Fear_and_Greed_Index.csv",
+				"folderPath": "101_GR06/RAW",
+				"fileSystem": "dspdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "date",
+				"type": "String"
+			},
+			{
+				"name": "fng_value",
+				"type": "String"
+			},
+			{
+				"name": "fng_classification",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
