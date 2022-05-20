@@ -1,9 +1,0 @@
-{
-	"name": "dsp7adf01",
-	"location": "northeurope",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "86d51701-3c43-46c3-b68a-c9a4af7cdafd",
-		"tenantId": "bd913315-e9b7-4c21-bbf2-c927f71d5d22"
-	}
-}
